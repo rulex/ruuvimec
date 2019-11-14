@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ruuvi
+  labels:
+    app: ruuvi
+  namespace: "umec"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ruuvi
+  template:
+    metadata:
+      labels:
+        app: ruuvi
+    spec:
+      hostNetwork: true
+      containers:
+      - name: ruuvi
+        image: docker.io/ruleks/ruuvi:0.1.0-aarch64
+        ports:
+        - containerPort: 8081
+        securityContext:
+          privileged: true
+          #hostNetwork: true
+      nodeSelector:
+        kubernetes.io/arch: arm
+        #uMECHW: "rpi3b"
+
